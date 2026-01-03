@@ -1,0 +1,92 @@
+  //Step 1: Create the Remote Interface
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+// Remote interface must extend Remote
+public interface Hello extends Remote {
+    String sayHello() throws RemoteException;
+}
+
+  //Step 2: Implement the Remote Interface (Server)
+
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
+
+public class HelloImpl extends UnicastRemoteObject implements Hello {
+
+    // Constructor
+    protected HelloImpl() throws RemoteException {
+        super();
+    }
+
+    @Override
+    public String sayHello() throws RemoteException {
+        return "Hello, RMI World!";
+    }
+}
+
+  //Step 3: Create the Server
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class RMIServer {
+    public static void main(String[] args) {
+        try {
+            HelloImpl obj = new HelloImpl();
+            
+            // Start RMI registry on port 1099
+            Registry registry = LocateRegistry.createRegistry(1099);
+            
+            // Bind the remote object in the registry
+            registry.rebind("Hello", obj);
+            
+            System.out.println("Server ready...");
+        } catch (Exception e) {
+            System.out.println("Server exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+}
+
+  //Step 4: Create the Client
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class RMIClient {
+    public static void main(String[] args) {
+        try {
+            // Connect to the RMI registry running on localhost
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            
+            // Lookup the remote object
+            Hello stub = (Hello) registry.lookup("Hello");
+            
+            // Call the remote method
+            String response = stub.sayHello();
+            System.out.println("Response: " + response);
+        } catch (Exception e) {
+            System.out.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+}
+
+
+  /////////How to Run This Example//////////
+
+Compile all files:
+
+javac *.java
+
+
+  //Start the server:
+
+java RMIServer
+
+
+  //Start the client:
+
+java RMIClient
