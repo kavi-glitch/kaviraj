@@ -1,0 +1,47 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class ButtShape extends Frame implements ActionListener
+{
+    Button b1, b2;
+    Graphics g;
+
+    ButtShape()
+    {
+        setLayout(new FlowLayout());
+
+        b1 = new Button("Circle");
+        b2 = new Button("Square");
+
+        add(b1);
+        add(b2);
+
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+
+        setSize(400, 400);
+        setVisible(true);
+
+        g = getGraphics();
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == b1)
+            g.drawOval(100, 100, 100, 100);
+
+        if (e.getSource() == b2)
+            g.drawRect(250, 100, 100, 100);
+    }
+
+    public static void main(String args[])
+    {
+        new ButtShape();
+    }
+}
