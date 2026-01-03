@@ -1,0 +1,82 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+public class jdat extends Frame {
+
+    Label l1, l2;
+    TextField t1, t2;
+    Button b1;
+
+    FileWriter fw;
+
+    jdat() {
+        setLayout(new FlowLayout());
+
+        l1 = new Label("Number : ");
+        l2 = new Label("Name : ");
+        t1 = new TextField(10);
+        t2 = new TextField(10);
+        b1 = new Button("Add");
+
+        add(l1);
+        add(t1);
+        add(l2);
+        add(t2);
+        add(b1);
+
+        b1.addActionListener(new AddData());
+        addWindowListener(new CloseWindow());
+
+        setBounds(200, 200, 400, 200);
+        setVisible(true);
+
+        openFile();
+    }
+
+    void openFile() {
+        try {
+            fw = new FileWriter("data.csv", true);
+
+            // write header only once
+            File f = new File("data.csv");
+            if (f.length() == 0) {
+                fw.write("Number,Name\n");
+                fw.flush();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    class AddData implements ActionListener {
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                String num = t1.getText();
+                String name = t2.getText();
+
+                fw.write(num + "," + name + "\n");
+                fw.flush();
+
+                t1.setText("");
+                t2.setText("");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    class CloseWindow extends WindowAdapter {
+        public void windowClosing(WindowEvent we) {
+            try {
+                fw.close();
+            } catch (Exception e) {}
+            System.exit(0);
+        }
+    }
+
+    public static void main(String[] args) {
+        new jdat();
+    }
+}
+
