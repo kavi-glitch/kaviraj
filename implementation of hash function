@@ -1,31 +1,25 @@
 #include <stdio.h>
-#define SIZE 10
-
-int main() {
-    int hash[SIZE], i, key, index;
-
-    // Initialize hash table
-    for (i = 0; i < SIZE; i++)
-        hash[i] = -1;
-
-    // Insert elements
-    for (i = 0; i < 5; i++) {
-        printf("Enter key: ");
-        scanf("%d", &key);
-
-        index = key % SIZE;
-
-        // Linear probing
-        while (hash[index] != -1)
-            index = (index + 1) % SIZE;
-
-        hash[index] = key;
-    }
-
-    // Display hash table
-    printf("\nHash Table:\n");
-    for (i = 0; i < SIZE; i++)
-        printf("%d -> %d\n", i, hash[i]);
-
-    return 0;
+#include <stdlib.h>
+int *h,n,m,c=0;
+void ins(int k){
+    int i=k%m;
+    while(h[i]!=-1) i=(i+1)%m;
+    h[i]=k; c++;
 }
+int main(){
+    int i,k;
+    printf("\nEnter the number of employee records (N): ");
+    scanf("%d",&n);
+    printf("\nEnter the two digit memory locations (m) for hash table: ");
+    scanf("%d",&m);
+    h=(int*)malloc(m*sizeof(int));
+    for(i=0;i<m;i++) h[i]=-1;
+    printf("\nEnter the four digit key values (K) of N Employee Records:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&k);
+        if(c<m) ins(k);
+    }
+  printf("\nHash Table contents are:\n");
+    for(i=0;i<m;i++)
+        printf("\nT[%d] --> %d",i,h[i]);
+    return 0;
