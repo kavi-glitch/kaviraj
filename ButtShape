@@ -1,47 +1,32 @@
 import java.awt.*;
 import java.awt.event.*;
 
-public class ButtShape extends Frame implements ActionListener
-{
-    Button b1, b2;
-    Graphics g;
+public class ShapeBtn extends Frame implements ActionListener {
+    Button c,s;
+    boolean circle=false, square=false;
 
-    ButtShape()
-    {
+    ShapeBtn() {
         setLayout(new FlowLayout());
-
-        b1 = new Button("Circle");
-        b2 = new Button("Square");
-
-        add(b1);
-        add(b2);
-
-        b1.addActionListener(this);
-        b2.addActionListener(this);
-
-        setSize(400, 400);
+        add(c=new Button("Circle"));
+        add(s=new Button("Square"));
+        c.addActionListener(this);
+        s.addActionListener(this);
+        setSize(400,300);
         setVisible(true);
-
-        g = getGraphics();
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() == b1)
-            g.drawOval(100, 100, 100, 100);
-
-        if (e.getSource() == b2)
-            g.drawRect(250, 100, 100, 100);
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==c) circle=true;
+        if(e.getSource()==s) square=true;
+        repaint();
     }
 
-    public static void main(String args[])
-    {
-        new ButtShape();
+    public void paint(Graphics g) {
+        if(circle) g.drawOval(100,100,80,80);
+        if(square) g.drawRect(220,100,80,80);
+    }
+
+    public static void main(String[] a) {
+        new ShapeBtn();
     }
 }
