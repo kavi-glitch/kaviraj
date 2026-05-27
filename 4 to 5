@@ -1,0 +1,94 @@
+
+Employee Database Management System (DBMS)
+
+i. Create Database
+
+CREATE DATABASE EmployeeDB;
+
+ii. Use Database
+
+USE EmployeeDB;
+
+iii. Create Departments Table
+
+CREATE TABLE Departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    location VARCHAR(100)
+);
+
+iv. Create Employees Table
+
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    hire_date DATE NOT NULL CHECK (hire_date <= CURDATE()),
+    status VARCHAR(20) DEFAULT 'Active',
+    department_id INT,
+    salary DECIMAL(10,2) CHECK (salary > 0),
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+
+v. Insert Data into Departments
+
+INSERT INTO Departments
+VALUES
+(1, 'HR', 'New York'),
+(2, 'Engineering', 'San Francisco'),
+(3, 'Marketing', 'Chicago');
+
+vi. Insert Data into Employees
+
+INSERT INTO Employees
+VALUES
+(1, 'Alice', 'Johnson', 'alice.johnson@company.com', '2021-05-01', 'Active', 1, 60000),
+(2, 'Bob', 'Smith', 'bob.smith@company.com', '2020-06-15', 'Active', 2, 80000),
+(3, 'Charlie', 'Brown', 'charlie.brown@company.com', '2022-07-20', 'Inactive', 3, 75000);
+
+vii. Update Employee Status
+
+UPDATE Employees
+SET status = 'Inactive'
+WHERE employee_id = 2;
+
+viii. View Active Employees
+
+SELECT *
+FROM Employees
+WHERE status = 'Active' AND salary > 60000;
+
+ix. Constraints Used
+
+PRIMARY KEY
+
+FOREIGN KEY
+
+NOT NULL
+
+UNIQUE
+
+CHECK
+
+DEFAULT
+
+
+------5a----
+
+SELECT CASE
+WHEN 11 % 2 = 0 THEN 'Even Number'
+ELSE 'Odd Number'
+END
+-------5.b--------
+
+WITH RECURSIVE fact(n, factorial) AS (
+SELECT 1, 1
+UNION ALL
+SELECT n + 1, factorial * (n + 1)
+FROM fact
+WHERE n < 5
+)
+SELECT * FROM fact;
+
+
